@@ -37,6 +37,28 @@ let jokes = [
 // serve back static files
 app.use(express.static('server/public'));
 
+// GET listener to retrieve joke array.
+app.get('/retrieveJokes', function(req, res) {
+  // console.log('Yo Schwami retrieving jokes array');
+  res.send(jokes);
+})
+
+// POST listener to receive new jokes.
+app.post('/jokeSubmit', (req, res) => {
+  // console.log('Receiving joke data', req.body)
+  // object holding variable.
+  let jokeToPush = {
+    whoseJoke: req.body.whoseJoke,
+    jokeQuestion: req.body.jokeQuestion,
+    punchLine: req.body.punchLine
+  }
+  // add joke to exsiting array.
+  jokes.push(jokeToPush);
+  // don't forget to send a status update to the client or the render
+  // will not run.
+  res.send(201)
+})
+
 app.listen(PORT, () => {
   console.log('server running on: ', PORT);
 }); // end spin up server
